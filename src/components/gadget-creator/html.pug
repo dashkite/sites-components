@@ -1,0 +1,33 @@
+include ../mixins
+
+main
+  .block(class = "nav vertical")
+    nav 
+      .nav-items
+        if type == "navigation"
+          a(href="#" name="add-link" title="Add Link")
+            +type-icon("link") 
+            | Link
+        else
+          a(href="#" name="add-layout" title="Add Layout")
+            +type-icon("layout") 
+            | Layout
+          a(href="#" name="add-navigation" title="Add Navigation")
+            +type-icon("navigation") 
+            | Navigation
+          a(href="#" name="add-text" title="Add Text")
+            +type-icon("text") 
+            | Text
+          a(href="#" name="add-image" title="Add Image")
+            +type-icon("image") 
+            | Image
+          a(href="#" name="add-link" title="Add Link")
+            +type-icon("link") 
+            | Link
+          a(href="#" name="add-icon" title="Add Icon")
+            +type-icon("icon") 
+            | Icon
+          if type == "page"
+            a(href="#" name="add-page" title="Add Page")
+              +type-icon("page") 
+              | Page

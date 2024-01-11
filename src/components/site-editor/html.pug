@@ -1,0 +1,35 @@
+main
+  .block(class = "section")
+    section 
+      header
+        h2 Edit Website
+        .block(class = "nav highlight")
+          nav 
+            a(href=`/workspaces/${workspace}/sites/${address}/delete`)
+              | Delete Website
+  .block(class="form")
+    form
+      section
+        .field
+          label
+            span Name
+            input(
+              name = "name"          
+              type = "text"
+              value = name
+            )
+        .field
+          label
+            span Description
+            input(
+              name = "description"          
+              type = "text"
+              value = description
+            )
+      footer
+        if loading
+          .loading 
+        else 
+          nav
+            a(name="cancel" href="#") Cancel
+            button.highlight(name="save") Save

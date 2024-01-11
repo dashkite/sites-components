@@ -1,0 +1,158 @@
+:host
+  display block
+  min-width 992px
+  height 100%
+
+dashkite-splitter
+  --gutter-color transparent
+  --gutter-margin 9px
+  --gutter-width 3px
+  --gutter-height 4rem
+  --gutter-border-right 1px solid white
+  --gutter-border-left 1px solid white
+
+.drop 
+  border-top-left-radius 0px !important
+  border-top-right-radius 0px !important
+  border-top 1px solid var(--primary-foreground)
+
+.drag
+  opacity 33%
+
+header.title
+  display flex
+  gap 1rem
+  h3
+    font-size var(--small-heading-font-size)
+    line-height var(--small-heading-line-height)
+    min-width unset
+
+.navigator
+  display flex
+  flex-direction column
+  justify-content space-between
+  container-type inline-size
+  width stretch
+  width -webkit-fill-available
+  width -moz-available
+  background-color var(--primary-background)
+  min-width 192px
+  border-radius 0.5rem
+  --copy-font-size var(--small-copy-font-size)
+  --copy-line-height var(--small-copy-line-height)
+  overflow scroll
+
+  .directory
+    padding 1rem
+    display flex
+    flex-direction column
+    gap 1rem
+
+    &.selected + .actions li.selected
+      display block
+
+    .disabled
+      opacity 33%
+      cursor default
+
+    .label 
+      & > span
+      & > input
+        background transparent
+        border none
+        outline none
+        min-width 0
+        border-radius 0.5rem
+        cursor pointer
+        white-space nowrap
+        overflow hidden
+        text-overflow ellipsis
+        &:focus
+          cursor text
+          background var(--primary-background)
+
+    svg, i
+      font-size var(--copy-font-size)
+      height 1em
+      width 1em
+      min-width 1em
+      min-height 1em
+      line-height 1em
+
+    ul
+      list-style none
+      margin 0
+      padding 0
+      max-width unset
+      min-width unset
+
+      li
+        margin 0
+        padding 0.25rem
+        border-radius 0.5rem
+        list-style none
+
+        &.mock
+          cursor default
+
+        &:focus
+          outline none
+
+        &.folder.selected
+          & > dashkite-drawer > [slot $= "-label"]
+            background var(--primary-accent)
+        &.file.selected > div
+          background var(--primary-accent)
+
+        ul
+          margin-left 1.5rem
+
+        & > div
+          display flex
+          align-items center
+          padding 0.25rem
+          border-radius 0.5rem
+          gap 0.5rem
+          cursor pointer
+
+          &.placeholder
+            cursor default
+
+        & > dashkite-drawer
+          [slot $= "-label"]
+            display inline-flex
+            align-items center
+            padding 0.25rem
+            gap 0.5rem
+            border-radius 0.5rem
+            cursor pointer
+            width stretch
+            width -webkit-fill-available
+            width -moz-available
+
+.preview 
+  width stretch
+  width -webkit-fill-available
+  width -moz-available
+  background-color var(--primary-background)
+  font-size 1rem
+  border-radius 0.5rem
+  min-width 320px
+
+.editor 
+  display flex
+  flex-direction column
+  padding 1rem
+  gap 1rem
+  width stretch
+  width -webkit-fill-available
+  width -moz-available
+  background-color var(--primary-background)
+  font-size 1rem
+  min-width 192px
+  border-radius 0.5rem
+  overflow scroll
+
+@container (max-width: 320px)
+  span.action
+    display none

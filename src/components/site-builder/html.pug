@@ -1,0 +1,205 @@
+include ../mixins
+
+mixin list(resources, parent)
+  ul
+    for resource in resources
+      - var classes = {}
+      if selected
+        - classes.selected = ( resource.key === selected.key )
+      if resource.type == "page" || resource.type == "layout" || resource.type == "navigation"
+        - var content = ( resource.content != null ) ? [ ...resource.content, { type: "placeholder" } ] : [ { type: "placeholder" } ]
+        - var metadata = { type: resource.type, key: resource.key }
+        li.folder( tabindex = 0 data-key = resource.key data-type = resource.type class = classes draggable = "true" )
+          dashkite-drawer
+            if resource.type == "page"
+              .label( slot = "closed-label" data-type = resource.type data-key = resource.key data-name = resource.name )
+                i.fal.fa-angle-right.fa-1x
+                +type-icon(resource.type)
+                input(
+                  name = "name"          
+                  type = "text"
+                  value = resource.name
+                  data-key = resource.key
+                )
+            else 
+              .label( slot = "closed-label" data-type = resource.type data-key = resource.key data-name = resource.name data-parent-key = parent.key data-parent-type = parent.type )
+                i.fal.fa-angle-right.fa-1x
+                +type-icon(resource.type)
+                input(
+                  name = "name"          
+                  type = "text"
+                  value = resource.name
+                  data-key = resource.key
+                )
+            if resource.type == "page"
+              .label( slot = "opened-label" data-type = resource.type data-key = resource.key data-name = resource.name )
+                i.fal.fa-angle-down.fa-1x
+                +type-icon(resource.type)
+                input(
+                  name = "name"          
+                  type = "text"
+                  value = resource.name
+                  data-key = resource.key
+                )
+            else 
+              .label( slot = "opened-label" data-type = resource.type data-key = resource.key data-name = resource.name data-parent-key = parent.key data-parent-type = parent.type )
+                i.fal.fa-angle-down.fa-1x
+                +type-icon(resource.type)
+                input(
+                  name = "name"          
+                  type = "text"
+                  value = resource.name
+                  data-key = resource.key
+                )
+            if content
+              div( slot = "content" ): +list(content, metadata)
+      else
+        if resource.type == "placeholder"
+          li.file.mock( tabindex = 0 )
+            .placeholder(data-type = resource.type data-parent-key = parent.key data-parent-type = parent.type )
+        else
+          li.file( tabindex = 0 data-key = resource.key data-type = resource.type class = classes draggable = "true" )
+            .label(data-type = resource.type data-key = resource.key data-name = resource.name, data-parent-key = parent.key data-parent-type = parent.type )
+              if resource.subtype
+                +type-icon(resource.subtype)
+              else 
+                +type-icon(resource.type)
+              input(
+                  name = "name"          
+                  type = "text"
+                  value = resource.name
+                  data-key = resource.key
+                )
+
+mixin add-child()
+  i.far.fa-plus.fa-1x
+  span.action Add Gadget
+
+mixin add-page()
+  i.far.fa-file-plus.fa-1x
+  span.action Add Page
+
+mixin delete()
+  i.far.fa-times.fa-1x
+  span.action Delete
+
+mixin actions(selected)
+  if selected
+    case selected.type
+      when "page"
+        a(href="#" name="add-page" title="Add Page")
+          +add-page()
+        a(href="#" name="add-child" title="Add Gadget")
+          +add-child()
+        a(href="#" name="delete" title="Delete")
+          +delete()
+      when "layout"
+      when "navigation"
+        a.disabled(href="#" name="disabled-add-page" title="Add Page")
+          +add-page()
+        a(href="#" name="add-child" title="Add Gadget")
+          +add-child()
+        a(href="#" name="delete" title="Delete")
+          +delete()
+      default
+        a.disabled(href="#" name="disabled-add-page" title="Add Page")
+          +add-page()
+        a.disabled(href="#" name="disabled-add-child" title="Add Gadget")
+          +add-child()
+        a(href="#" name="delete" title="Delete")
+          +delete()
+  else 
+    a(href="#" name="add-page" title="Add Page")
+      +add-page()
+    a.disabled(href="#" name="disabled-add-child" title="Add Gadget")
+      +add-child()
+    a.disabled(href="#" name="disabled-delete" title="Delete")
+      +delete()
+
+mixin preview(selected)
+  if selected 
+    dashkite-page-preview( data-site = site, data-branch = branch, data-page = page )
+
+mixin edit(selected, action)
+  if action == "create page" 
+    header.title 
+      h3 Create Page
+    dashkite-page-creator( data-site = site, data-root = "" )
+  else 
+    if selected 
+      if action == "create gadget" 
+        header.title 
+          h3 Create Gadget
+        dashkite-gadget-creator( data-type = selected.type )
+      else if action == "create layout"
+        header.title 
+          h3 Create Layout
+        dashkite-layout-creator( data-site = site, data-root = selected.key )
+      else if action == "create navigation"
+        header.title 
+          h3 Create Navigation
+        dashkite-navigation-creator( data-site = site, data-root = selected.key )
+      else if action == "create text"
+        header.title 
+          h3 Create Text
+        dashkite-text-creator( data-site = site, data-root = selected.key )
+      else if action == "create image"
+        header.title 
+          h3 Create Image
+        dashkite-image-creator( data-site = site, data-branch = branch, data-root = selected.key )
+      else if action == "create link"
+        header.title 
+          h3 Create Link
+        dashkite-link-creator( data-site = site, data-root = selected.key )
+      else if action == "create icon"
+        header.title 
+          h3 Create Icon
+        dashkite-icon-creator( data-site = site, data-root = selected.key )
+      else if action == "create nested page"
+        header.title 
+          h3 Create Page
+        dashkite-page-creator( data-site = site, data-root = selected.key )
+      else if action == "edit"
+        case selected.type
+          when "page"
+            header.title 
+              h3 Edit Page
+            dashkite-page-editor( data-site = site, data-branch = branch, data-key = selected.key )
+          when "layout"
+            header.title 
+              h3 Edit Layout
+            dashkite-layout-editor( data-site = site, data-branch = branch, data-key = selected.key )
+          when "navigation"
+            header.title 
+              h3 Edit Navigation
+            dashkite-navigation-editor( data-site = site, data-branch = branch, data-key = selected.key )
+          when "text"
+            header.title 
+              h3 Edit Text
+            dashkite-text-editor( data-site = site, data-branch = branch, data-key = selected.key )
+          when "image"
+            header.title 
+              h3 Edit Image
+            dashkite-image-editor( data-site = site, data-branch = branch, data-key = selected.key )
+          when "link"
+            header.title 
+              h3 Edit Link
+            dashkite-link-editor( data-site = site, data-branch = branch, data-key = selected.key )
+          when "icon"
+            header.title 
+              h3 Edit Icon
+            dashkite-icon-editor( data-site = site, data-branch = branch, data-key = selected.key )
+
+dashkite-splitter(data-sizes = sizes )
+  .navigator(slot = "navigator" )
+    .directory
+      header.title
+        .block.nav.highlight
+          nav
+            +actions(selected)
+      +list(tree)
+
+  .preview( slot = "preview" )
+    +preview(selected)
+  .editor(slot="editor")
+    +edit(selected, action)

@@ -1,0 +1,41 @@
+include ../mixins
+
+main
+  .block(class = "collection")
+    section
+      header 
+        h2 Websites
+        if subscription
+          if subscription.status == "active" || subscription.status =="trialing"
+            .block(class = "nav highlight")
+              nav
+                a(href=`/workspaces/${workspace}/sites/add`)
+                  i(class = "fal fa-plus fa-1x")
+                  | Create A Website
+      .main 
+        if loading 
+          +block-template()
+        else
+          if subscription
+            if subscription.status == "active" || subscription.status =="trialing"
+              if subscription.metadata.addresses.length > 0
+                for address of subscription.metadata.addresses
+                  dashkite-site-summary(data-site = address, data-workspace = workspace )
+              else 
+                .block(class = "section")
+                  section 
+                    .main Create a website to get started!
+            else 
+              .block(class = "section")
+                section 
+                  .main There is an issue with your subscription.
+                  footer 
+                    a(href=`/workspaces/${workspace}/overview`) You can manage your subscriptions here &#8594;
+          else 
+            .block(class = "section")
+              section 
+                header 
+                  h2 Add a subscription to get started!
+                footer 
+                  a(href=`/workspaces/${workspace}/products/add`) You can add a subscription here &#8594;
+    

@@ -1,0 +1,28 @@
+main
+  .block(class="form")
+    form
+      section
+        .field
+          label
+            span Name
+            input(
+              name = "name"          
+              type = "text"
+              required = "true"
+            )
+        .field
+          label
+            span Image
+            input(
+              name = "image"          
+              type = "file"
+              accept = "image/png, image/jpeg, image/svg+xml"
+              required = "true"
+            )
+      footer
+        if loading
+          .loading 
+        else 
+          nav
+            a(name="cancel" href="#") Cancel
+            button.highlight Create

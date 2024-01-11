@@ -1,0 +1,42 @@
+main
+  box-sizing border-box
+  display flex
+  flex-wrap wrap
+  flex-direction column
+  justify-content center
+  align-items flex-start
+  align-content flex-start
+  row-gap 4rem
+  column-gap 2rem
+  padding 0
+
+.collection
+  --block-child-max-width 992px
+  --collection-main-justify-content flex-start
+
+.block.template
+  opacity 33%
+
+dashkite-site-summary, .block.template
+  width 480px
+  min-height 120px
+
+.collection > section
+  width 992px
+
+@media screen and (max-width: 1056px)
+  .collection 
+    --block-child-flex-direction column
+    --block-child-flex-wrap nowrap
+    --collection-main-flex-direction column
+    --collection-main-flex-wrap nowrap
+    --collection-main-align-items center
+    & > section
+      width 533px
+
+@media screen and (max-width: 960px)
+  dashkite-site-summary, .block.template
+    width 320px
+
+  .collection > section
+    width 320px

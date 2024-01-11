@@ -1,0 +1,19 @@
+if loading 
+  .block(class="border round" style="min-height: 120px;")
+    .loading 
+else
+  .block(class = "nav border round")
+    nav 
+      header 
+        .block( class = "section highlight")
+            a(href=`/workspaces/${workspace}/sites/${address}`)
+              section
+                header
+                  h3
+                    != name 
+                    | &#8594;
+        .block(class = "nav")
+          nav
+            a.neutral(href=`/workspaces/${workspace}/sites/${address}/settings`)
+              i( class = "fal fa-gear fa-1x")
+              | Settings 

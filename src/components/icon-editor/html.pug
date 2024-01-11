@@ -1,0 +1,34 @@
+main
+  .block(class="form")
+    form
+      section
+        .field
+          label
+            span Name
+            input(
+              name = "name"          
+              type = "text"
+              required = "true"
+              value = name
+            )
+        .field
+          label
+            span Icon
+            input(
+              name = "icon"          
+              type = "text"
+              required = "true"
+              value = icon
+            )
+        .field
+          label
+            span Text
+            input(
+              name = "text"          
+              type = "text"
+              value = text
+            )
+      footer
+        nav
+          a(name="cancel" href="#") Reset
+          button.highlight Save

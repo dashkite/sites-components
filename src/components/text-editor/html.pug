@@ -1,0 +1,49 @@
+main
+  .block(class="form")
+    form
+      section
+        .field
+          label
+            span Name
+            input(
+              name = "name"          
+              type = "text"
+              required = "true"
+              value = name
+            )
+        .field
+          label
+            span Title
+            input(
+              name = "title"          
+              type = "text"
+              value = title
+            )
+        .field
+          label
+            span Icon
+            input(
+              name = "icon"          
+              type = "text"
+              value = icon
+            )
+        .field 
+          label
+            span Article
+            input(
+              name = "subtype"          
+              type = "checkbox"
+              value = "article"
+              checked = article
+            )
+        .field
+          label
+            span Content
+            textarea(
+              name = "content"
+              required = true
+            )=content
+      footer
+        nav
+          a(name="cancel" href="#") Reset
+          button.highlight Save

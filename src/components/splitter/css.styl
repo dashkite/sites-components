@@ -1,0 +1,23 @@
+:host
+  display block
+  height 100%
+
+.main
+  display flex
+  height 100%
+
+  .pane
+    display flex
+
+  // TODO for a vertical split, we'd want to set the gutter *height*
+  .gutter
+    background var(--gutter-color)
+    border-top var(--gutter-border-top, none)
+    border-left var(--gutter-border-left, none)
+    border-bottom var(--gutter-border-bottom, none)
+    border-right var(--gutter-border-right, none)
+    cursor col-resize
+    margin 0 var(--gutter-margin)
+    flex-basis var(--gutter-width)
+    height var(--gutter-height)
+    align-self center
