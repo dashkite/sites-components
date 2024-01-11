@@ -1,0 +1,38 @@
+{
+  "name": "@dashkite/sites-components",
+  "version": "0.0.0",
+  "description": "Web Components For Sites",
+  "keywords": [],
+  "homepage": "https://github.com/dashkite/sites-components#readme",
+  "bugs": {
+    "url": "https://github.com/dashkite/sites-components/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dashkite/sites-components.git"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "author": "Daniel Yoder",
+  "exports": {
+    ".": {
+      "browser": "./build/browser/src/index.js"
+    }
+  },
+  "main": "build/browser/src/index.js",
+  "files": [
+    "build/browser/src"
+  ],
+  "scripts": {
+    "test": "genie test",
+    "build": "genie build"
+  },
+  "devDependencies": {
+    "@dashkite/amen": "^0.2.0",
+    "@dashkite/amen-console": "^0.0.2",
+    "@dashkite/assert": "^0.1.4",
+    "@dashkite/genie": "link:../genie",
+    "@dashkite/genie-coffee": "link:../genie-coffee"
+  },
+  "dependencies": {
+  }
+}
