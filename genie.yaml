@@ -1,3 +1,26 @@
 coffee:
   targets:
     - browser
+
+pug:
+  targets:
+    browser:
+      - preset: js
+        glob:
+          - src/**/*.pug
+
+stylus:
+  targets:
+    browser:
+      - preset: css
+        glob: src/index.styl
+      - preset: js
+        glob:
+          - src/**/*.styl
+
+drn:
+  yaml:
+    targets:
+      browser:
+        - preset: js
+          glob: src/**/*.yaml

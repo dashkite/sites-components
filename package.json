@@ -13,6 +13,11 @@
   },
   "license": "SEE LICENSE IN LICENSE.md",
   "author": "Daniel Yoder",
+  "imports": {
+    "#configuration": "./build/browser/src/configuration.js",
+    "#helpers/*": "./build/browser/src/helpers/*.js",
+    "#templates/*": "./build/browser/src/templates/*.js"
+  },
   "exports": {
     ".": {
       "browser": "./build/browser/src/index.js"
@@ -30,9 +35,25 @@
     "@dashkite/amen": "^0.2.0",
     "@dashkite/amen-console": "^0.0.2",
     "@dashkite/assert": "^0.1.4",
+    "@dashkite/drn-sky": "link:../drn-sky",
     "@dashkite/genie": "link:../genie",
-    "@dashkite/genie-coffee": "link:../genie-coffee"
+    "@dashkite/genie-coffee": "link:../genie-coffee",
+    "@dashkite/genie-modules": "link:../genie-modules",
+    "@dashkite/genie-pug": "link:../genie-pug",
+    "@dashkite/genie-stylus": "link:../genie-stylus",
+    "@dashkite/genie-yaml-drn": "link:../genie-yaml-drn"
   },
   "dependencies": {
+    "@dashkite/helium": "^0.4.4",
+    "@dashkite/joy": "link:../joy",
+    "@dashkite/katana": "^0.4.8",
+    "@dashkite/media-type": "link:../media-type",
+    "@dashkite/posh": "link:../posh",
+    "@dashkite/rio": "link:../carbon",
+    "@dashkite/rio-oxygen": "link:../rio-oxygen",
+    "@dashkite/rio-vega": "link:../rio-vega",
+    "@dashkite/sites-resource": "link:../sites-resource",
+    "@dashkite/vega-client": "link:../vega-client",
+    "@dashkite/vellum": "link:../vellum"
   }
 }

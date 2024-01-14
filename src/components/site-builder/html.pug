@@ -10,7 +10,7 @@ mixin list(resources, parent)
         - var content = ( resource.content != null ) ? [ ...resource.content, { type: "placeholder" } ] : [ { type: "placeholder" } ]
         - var metadata = { type: resource.type, key: resource.key }
         li.folder( tabindex = 0 data-key = resource.key data-type = resource.type class = classes draggable = "true" )
-          dashkite-drawer
+          vellum-drawer
             if resource.type == "page"
               .label( slot = "closed-label" data-type = resource.type data-key = resource.key data-name = resource.name )
                 i.fal.fa-angle-right.fa-1x
@@ -190,7 +190,7 @@ mixin edit(selected, action)
               h3 Edit Icon
             dashkite-icon-editor( data-site = site, data-branch = branch, data-key = selected.key )
 
-dashkite-splitter(data-sizes = sizes )
+vellum-splitter(data-sizes = sizes )
   .navigator(slot = "navigator" )
     .directory
       header.title

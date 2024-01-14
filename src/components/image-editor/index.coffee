@@ -1,41 +1,45 @@
-import * as F from "@dashkite/joy/function"
-import * as K from "@dashkite/katana/async"
 import * as Meta from "@dashkite/joy/metaclass"
-import * as R from "@dashkite/rio"
-import * as Posh from "@dashkite/posh"
-import Registry from "@dashkite/helium"
-import configuration from "#configuration"
 
-import { Resource } from "@dashkite/vega-client"
-import { resolve, lookup } from "@dashkite/sites-resource"
+import * as R from "@dashkite/rio"
+import HTTP from "@dashkite/rio-vega"
+
+import * as Posh from "@dashkite/posh"
+
+import Gadget from "#helpers/gadget"
 
 import html from "./html"
 import css from "./css"
-import waiting from "#templates/waiting"
+
 
 class extends R.Handle
 
   Meta.mixin @, [
+
     R.tag "dashkite-image-editor"
     R.diff
+
     R.initialize [
       R.shadow
       R.sheets [ css, Posh.component ]
+
       R.describe [
-        K.poke ({ site, branch, key }) ->
-          resources = await Resource.get 
-            origin: configuration.sites.origin
-            name: "branch"
-            bindings: { site, branch }
-          tree = resolve resources
-          lookup tree, key
-        R.set "data"
-        R.render html
+        HTTP.resource ({ site, branch }) ->
+          origin: configuration.sites.origin
+          name: "branch"
+          bindings: { site, branch }
       ]
+
+      R.activate [
+        R.description
+        Gadget.get
+        R.render html
+      ] 
+
       R.click "button", [
         R.validate
       ]
       R.valid [
+        R.render waiting
         R.form
         R.set "form"
         R.call ->
@@ -44,9 +48,10 @@ class extends R.Handle
           { @form..., loading }
         R.render html
         R.description
-        R.call ({ site, root, branch }) ->
+        # R.call ({ site, root, branch }) ->
+        R.call ({ site, branch }) ->
           if @form.image.name != ""
-            key = root + "/" + @form.name
+            # key = root + "/" + @form.name
             address = await generateAddress()
             { upload, download } = await Resource.post 
               origin: configuration.sites.origin

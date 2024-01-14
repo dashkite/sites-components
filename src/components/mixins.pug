@@ -1,0 +1,31 @@
+mixin logo(product)
+  case product 
+    when 'db'
+      i( class = "fal fa-database fa-1x")
+      | db
+    when 'sites'
+      i( class = "fal fa-browser fa-1x")
+      | sites
+
+mixin block-template 
+  .block.template(class="border round")
+    .loading 
+
+mixin type-icon(type)
+  case type
+    when "page"
+      i.ri-file-text-line
+    when "layout"
+      i.ri-folders-line
+    when "image"
+      i.ri-image-line
+    when "text"
+      i.ri-sticky-note-line
+    when "article"
+      i.ri-newspaper-line
+    when "navigation"
+      i.ri-menu-line
+    when "link"
+      i.ri-link
+    when "icon"
+      i.ri-shapes-line

@@ -3,7 +3,7 @@
   min-width 992px
   height 100%
 
-dashkite-splitter
+vellum-splitter
   --gutter-color transparent
   --gutter-margin 9px
   --gutter-width 3px
@@ -99,7 +99,7 @@ header.title
           outline none
 
         &.folder.selected
-          & > dashkite-drawer > [slot $= "-label"]
+          & > vellum-drawer > [slot $= "-label"]
             background var(--primary-accent)
         &.file.selected > div
           background var(--primary-accent)
@@ -118,7 +118,7 @@ header.title
           &.placeholder
             cursor default
 
-        & > dashkite-drawer
+        & > vellum-drawer
           [slot $= "-label"]
             display inline-flex
             align-items center

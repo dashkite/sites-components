@@ -53,7 +53,7 @@ class extends R.Handle
         R.render html
       ]
       R.event "click", [
-        R.within "dashkite-drawer > .label, .file > .label", [
+        R.within "vellum-drawer > .label, .file > .label", [
           F.flow [
             R.call (el, event, handle) -> 
               selected: 
@@ -90,7 +90,7 @@ class extends R.Handle
         ]
       ]
       R.event "dragover", [
-        R.within "dashkite-drawer > .label", [
+        R.within "vellum-drawer > .label", [
           F.flow [
             R.call (el, event, handle) -> 
               if @dragged?.key?
@@ -582,7 +582,7 @@ class extends R.Handle
         -> ""
       ]
       # R.event "change", [
-      #   R.matches "dashkite-splitter", [
+      #   R.matches "vellum-splitter", [
       #       # TODO save event detail (sizes) to project
       #   ]
       # ]

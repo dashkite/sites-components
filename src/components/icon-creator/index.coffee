@@ -1,24 +1,24 @@
-import * as F from "@dashkite/joy/function"
-import * as K from "@dashkite/katana/async"
 import * as Meta from "@dashkite/joy/metaclass"
-import * as R from "@dashkite/rio"
-import * as Posh from "@dashkite/posh"
-import Registry from "@dashkite/helium"
+import * as K from "@dashkite/katana/async"
 
-import { Resource } from "@dashkite/vega-client"
+import * as R from "@dashkite/rio"
+
+import * as Posh from "@dashkite/posh"
 
 import html from "./html"
 import css from "./css"
-import waiting from "#templates/waiting"
 
 class extends R.Handle
 
   Meta.mixin @, [
+
     R.tag "dashkite-icon-creator"
     R.diff
+
     R.initialize [
       R.shadow
       R.sheets [ css, Posh.component ]
+
       R.activate [
         R.render html
       ]
@@ -28,7 +28,7 @@ class extends R.Handle
       R.valid [
         R.description
         R.form
-        R.call ( form, { site, root } ) ->
+        K.poke ( form, { root }) ->
           key = root + "/" + form.name
           { form..., key, type: "icon" }
         R.dispatch "change"
