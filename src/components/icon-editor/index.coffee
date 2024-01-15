@@ -7,6 +7,9 @@ import * as Posh from "@dashkite/posh"
 
 import Gadget from "#helpers/gadget"
 
+import  configuration from "#configuration"
+{ origin } = configuration
+
 import html from "./html"
 import css from "./css"
 

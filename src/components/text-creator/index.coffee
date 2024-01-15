@@ -1,15 +1,11 @@
-import * as F from "@dashkite/joy/function"
-import * as K from "@dashkite/katana/async"
 import * as Meta from "@dashkite/joy/metaclass"
-import * as R from "@dashkite/rio"
-import * as Posh from "@dashkite/posh"
-import Registry from "@dashkite/helium"
 
-import { Resource } from "@dashkite/vega-client"
+import * as R from "@dashkite/rio"
+
+import * as Posh from "@dashkite/posh"
 
 import html from "./html"
 import css from "./css"
-import waiting from "#templates/waiting"
 
 class extends R.Handle
 
@@ -28,9 +24,9 @@ class extends R.Handle
       R.valid [
         R.description
         R.form
-        R.call ( form, { site, root } ) ->
+        R.call ( form, { root }) ->
           key = root + "/" + form.name
-          { form..., key, type: "text" }
+          { form..., key, type: "navigation" }
         R.dispatch "change"
       ]
       R.click "a[name='cancel']", [

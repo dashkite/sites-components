@@ -1,38 +1,5 @@
-main
-  .block(class="form")
-    form
-      header
-        h2 Create Website
-      section
-        .field
-          label
-            span Name
-            input(
-              name = "name"          
-              type = "text"
-              required = "true"
-            )
-
-          .hint
-            :markdown
-              The name of your website.
-
-        .field
-          label
-            span Description
-            input(
-              name = "description"          
-              type = "text"
-              required = "true"
-            )
-
-          .hint
-            :markdown
-              A short description of your website.
-      footer
-        if loading
-          .loading 
-        else 
-          nav
-            a(name="cancel" href="#") Cancel
-            button.highlight Create
+extends main
+block actions
+  nav
+    a(name="cancel" href="#") Cancel
+    button.highlight Create

@@ -1,28 +1,5 @@
-main
-  .block(class="form")
-    form
-      section
-        .field
-          label
-            span Name
-            input(
-              name = "name"          
-              type = "text"
-              required = "true"
-              value = name
-            )
-        .field
-          label
-            span Image
-            input(
-              name = "image"          
-              type = "file"
-              accept = "image/*"
-            )
-      footer
-        if loading
-          .loading 
-        else 
-          nav
-            a(name="cancel" href="#") Reset
-            button.highlight Save
+extends main
+block actions
+  nav
+    a(name="cancel" href="#") Reset
+    button.highlight Save

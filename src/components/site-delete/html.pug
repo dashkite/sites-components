@@ -1,13 +1,5 @@
-main
-  .block(class = "section")
-    section 
-      header
-        h2 Delete Website?
-      .main This action can't be undone.
-      footer
-        if loading
-          .loading 
-        else 
-          nav 
-            a(name="cancel" href="#") Cancel
-            button.highlight Delete Website
+extends main
+block actions
+  nav 
+    a(name="cancel" href="#") Cancel
+    button.highlight Delete Website

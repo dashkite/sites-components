@@ -1,20 +1,21 @@
 import * as F from "@dashkite/joy/function"
 import * as K from "@dashkite/katana/async"
 import * as Meta from "@dashkite/joy/metaclass"
-import * as R from "@dashkite/rio"
-import * as Posh from "@dashkite/posh"
-import * as Text from "@dashkite/joy/text"
-import Registry from "@dashkite/helium"
-import configuration from "#configuration"
+
 import { Resource } from "@dashkite/vega-client"
-import { resolve, traverse, lookup, key_change, 
-  insert, get_root, delete_resource, assign, sort, find_page } from "@dashkite/sites-resource"
+
+import * as R from "@dashkite/rio"
+
+import * as Posh from "@dashkite/posh"
+
+import * as Site from "@dashkite/sites-resource"
+
+import configuration from "#configuration"
 
 import html from "./html"
 import css from "./css"
-import waiting from "#templates/waiting"
 
-setDragImage = do ({ image, origin } = {}) ->
+setDragImage = do ({ image } = {}) ->
   ( event ) ->
     unless image?
       image = new Image()
@@ -45,31 +46,31 @@ class extends R.Handle
             origin: configuration.sites.origin
             name: "branch"
             bindings: { site, branch }
-          tree = resolve resources
+          tree = Site.resolve resources
           console.log "TREE", tree
           tree ?= []
           { sizes: [ 20, 60, 20 ], tree, site, branch }
-        R.assign "data"
+        R.Site.assign "data"
         R.render html
       ]
       R.event "click", [
         R.within "vellum-drawer > .label, .file > .label", [
           F.flow [
-            R.call (el, event, handle) -> 
+            R.call (el ) -> 
               selected: 
                 key: el.dataset.key
                 type: el.dataset.type
                 name: el.dataset.name
               action: "edit"
-              page: find_page @data.tree, el.dataset.key
-            R.assign "data"
+              page: Site.findPage @data.tree, el.dataset.key
+            R.Site.assign "data"
           ]
         ]
       ]
       R.event "mousedown", [
         R.within "input[name='name']", [
           F.flow [
-            R.call (el, event, handle) -> 
+            R.call (el, event ) -> 
               if @data.selected?.key != el.dataset.key
                 event.stopPropagation()
                 event.preventDefault()
@@ -79,7 +80,7 @@ class extends R.Handle
       R.event "dragstart", [
         R.within ".folder, .file", [
           F.flow [
-            R.call (el, event, handle) ->
+            R.call (el, event ) ->
               el.classList.add "drag"
               event.target.focus()
               await setDragImage event
@@ -92,7 +93,7 @@ class extends R.Handle
       R.event "dragover", [
         R.within "vellum-drawer > .label", [
           F.flow [
-            R.call (el, event, handle) -> 
+            R.call (el, event ) -> 
               if @dragged?.key?
                 if !( @dropzone.includes @dragged.key ) && el.dataset.key != @dragged.key
                   if el.dataset.type == "navigation"
@@ -121,7 +122,7 @@ class extends R.Handle
       R.event "dragover", [
         R.within ".file > .label", [
           F.flow [
-            R.call (el, event, handle) -> 
+            R.call (el, event ) -> 
               if @dragged?.key?
                 if !( @dropzone.includes @dragged.key ) && @dragged.type != "page" && el.dataset.key != @dragged.key
                   if !( el.dataset.parentType == "navigation" && @dragged.type != "link" )
@@ -135,7 +136,7 @@ class extends R.Handle
       R.event "dragover", [
         R.within ".placeholder", [
           F.flow [
-            R.call (el, event, handle) -> 
+            R.call (el, event ) -> 
               if @dragged?.key?
                 if !( @dropzone.includes @dragged.key ) && el.dataset.key != @dragged.key
                   if @dragged.type != "page"
@@ -151,29 +152,29 @@ class extends R.Handle
         R.within ".folder", [
           F.flow [
             R.description
-            R.call ({ site, branch }, el, event ) -> 
+            R.call ({ site, branch }, _, event ) -> 
               event.preventDefault()
               { parent, before } = @drop
               if parent?
-                dropped = lookup @data.tree, @dragged.key
+                dropped = Site.lookup @data.tree, @dragged.key
                 if parent == ""
                   # @data.tree[ detail.key ] = detail
                 else
-                  new_parent = lookup @data.tree, parent
-                  new_parent.content ?= []
-                  old_parent = lookup @data.tree, get_root dropped.key
-                  old_parent.content = old_parent.content.filter ( element ) -> element.key != dropped.key
-                  key_change dropped, parent
+                  newParent = Site.lookup @data.tree, parent
+                  newParent.content ?= []
+                  oldParent = Site.lookup @data.tree, Site.getRoot dropped.key
+                  oldParent.content = oldParent.content.filter ( element ) -> element.key != dropped.key
+                  Site.keyChange dropped, parent
                   if before == "placeholder"
-                    new_parent.content.push dropped
+                    newParent.content.push dropped
                   else
-                    index = new_parent.content.findIndex ( element ) -> element.key == before
-                    new_parent.content.splice index, 0, dropped
-                  assign @data.tree, new_parent.key, new_parent
-                  @data.tree = sort @data.tree
+                    index = newParent.content.findIndex ( element ) -> element.key == before
+                    newParent.content.splice index, 0, dropped
+                  Site.assign @data.tree, newParent.key, newParent
+                  @data.tree = Site.sort @data.tree
                   @data.selected.key = dropped.key
                   @data.page = find_page @data.tree, dropped.key
-                resources = traverse @data.tree
+                resources = Site.traverse @data.tree
                 Resource.put 
                   origin: configuration.sites.origin
                   name: "branch"
@@ -186,7 +187,7 @@ class extends R.Handle
       R.event "dragenter", [
         R.within ".folder", [
           F.flow [
-            R.call (el, event, handle) -> 
+            R.call (el, event ) -> 
               @dropzone.push el.dataset.key
               event.preventDefault()
           ]
@@ -195,7 +196,7 @@ class extends R.Handle
       R.event "dragleave", [
         R.within ".label, .placeholder", [
           F.flow [
-            R.call (el, event, handle) -> 
+            R.call (el ) -> 
               el.classList.remove "drop"
           ]
         ]
@@ -203,7 +204,7 @@ class extends R.Handle
       R.event "dragend", [
         R.within ".folder, .file", [
           F.flow [
-            R.call (el, event, handle) -> 
+            R.call (el ) -> 
               el.classList.remove "drag"
           ]
         ]
@@ -211,7 +212,7 @@ class extends R.Handle
       R.event "drop", [
         R.within ".label, .placeholder", [
           F.flow [
-            R.call (el, event, handle) -> 
+            R.call (el ) -> 
               el.classList.remove "drop"
           ]
         ]
@@ -219,7 +220,7 @@ class extends R.Handle
       R.event "dragleave", [
         R.within ".folder", [
           F.flow [
-            R.call (el, event, handle) ->
+            R.call ( _ ) ->
               @dropzone = @dropzone.filter ( key ) -> key != event.target.dataset.key
           ]
         ]
@@ -234,14 +235,14 @@ class extends R.Handle
               else
                 resources = undefined
                 if (detail.key.split "/").length > 1
-                  parent = lookup @data.tree, @data.selected.key
+                  parent = Site.lookup @data.tree, @data.selected.key
                   parent.content ?= []
                   parent.content.push detail
-                  resources = traverse @data.tree
+                  resources = Site.traverse @data.tree
                 else
                   @data.tree[ detail.key ] = detail
-                  @data.tree = sort @data.tree
-                  resources = traverse @data.tree
+                  @data.tree = Site.sort @data.tree
+                  resources = Site.traverse @data.tree
                 Resource.put 
                   origin: configuration.sites.origin
                   name: "branch"
@@ -272,10 +273,10 @@ class extends R.Handle
               if detail.action?
                 @data.action = detail.action
               else
-                parent = lookup @data.tree, @data.selected.key
+                parent = Site.lookup @data.tree, @data.selected.key
                 parent.content ?= []
                 parent.content.push detail
-                resources = traverse @data.tree
+                resources = Site.traverse @data.tree
                 @data.action = "edit"
                 Resource.put 
                   origin: configuration.sites.origin
@@ -294,10 +295,10 @@ class extends R.Handle
               if detail.action?
                 @data.action = detail.action
               else
-                parent = lookup @data.tree, @data.selected.key
+                parent = Site.lookup @data.tree, @data.selected.key
                 parent.content ?= []
                 parent.content.push detail
-                resources = traverse @data.tree
+                resources = Site.traverse @data.tree
                 @data.action = "edit"
                 Resource.put 
                   origin: configuration.sites.origin
@@ -316,10 +317,10 @@ class extends R.Handle
               if detail.action?
                 @data.action = detail.action
               else
-                parent = lookup @data.tree, @data.selected.key
+                parent = Site.lookup @data.tree, @data.selected.key
                 parent.content ?= []
                 parent.content.push detail
-                resources = traverse @data.tree
+                resources = Site.traverse @data.tree
                 @data.action = "edit"
                 Resource.put 
                   origin: configuration.sites.origin
@@ -338,10 +339,10 @@ class extends R.Handle
               if detail.action?
                 @data.action = detail.action
               else
-                parent = lookup @data.tree, @data.selected.key
+                parent = Site.lookup @data.tree, @data.selected.key
                 parent.content ?= []
                 parent.content.push detail
-                resources = traverse @data.tree
+                resources = Site.traverse @data.tree
                 @data.action = "edit"
                 Resource.put 
                   origin: configuration.sites.origin
@@ -360,10 +361,10 @@ class extends R.Handle
               if detail.action?
                 @data.action = detail.action
               else
-                parent = lookup @data.tree, @data.selected.key
+                parent = Site.lookup @data.tree, @data.selected.key
                 parent.content ?= []
                 parent.content.push detail
-                resources = traverse @data.tree
+                resources = Site.traverse @data.tree
                 @data.action = "edit"
                 Resource.put 
                   origin: configuration.sites.origin
@@ -382,10 +383,10 @@ class extends R.Handle
               if detail.action?
                 @data.action = detail.action
               else
-                parent = lookup @data.tree, @data.selected.key
+                parent = Site.lookup @data.tree, @data.selected.key
                 parent.content ?= []
                 parent.content.push detail
-                resources = traverse @data.tree
+                resources = Site.traverse @data.tree
                 @data.action = "edit"
                 Resource.put 
                   origin: configuration.sites.origin
@@ -401,9 +402,9 @@ class extends R.Handle
           F.flow [
             R.description
             R.call ({ site, branch }, el, { detail } ) ->
-              key_change detail, get_root detail.key
-              assign @data.tree, @data.selected.key, detail
-              resources = traverse @data.tree
+              Site.keyChange detail, Site.getRoot detail.key
+              Site.assign @data.tree, @data.selected.key, detail
+              resources = Site.traverse @data.tree
               Resource.put 
                 origin: configuration.sites.origin
                 name: "branch"
@@ -418,9 +419,9 @@ class extends R.Handle
           F.flow [
             R.description
             R.call ({ site, branch }, el, { detail } ) ->
-              key_change detail, get_root detail.key
-              assign @data.tree, @data.selected.key, detail
-              resources = traverse @data.tree
+              Site.keyChange detail, Site.getRoot detail.key
+              Site.assign @data.tree, @data.selected.key, detail
+              resources = Site.traverse @data.tree
               Resource.put 
                 origin: configuration.sites.origin
                 name: "branch"
@@ -435,9 +436,9 @@ class extends R.Handle
           F.flow [
             R.description
             R.call ({ site, branch }, el, { detail } ) ->
-              key_change detail, get_root detail.key
-              assign @data.tree, @data.selected.key, detail
-              resources = traverse @data.tree
+              Site.keyChange detail, Site.getRoot detail.key
+              Site.assign @data.tree, @data.selected.key, detail
+              resources = Site.traverse @data.tree
               Resource.put 
                 origin: configuration.sites.origin
                 name: "branch"
@@ -452,9 +453,9 @@ class extends R.Handle
           F.flow [
             R.description
             R.call ({ site, branch }, el, { detail } ) ->
-              key_change detail, get_root detail.key
-              assign @data.tree, @data.selected.key, detail
-              resources = traverse @data.tree
+              Site.keyChange detail, Site.getRoot detail.key
+              Site.assign @data.tree, @data.selected.key, detail
+              resources = Site.traverse @data.tree
               Resource.put 
                 origin: configuration.sites.origin
                 name: "branch"
@@ -469,9 +470,9 @@ class extends R.Handle
           F.flow [
             R.description
             R.call ({ site, branch }, el, { detail } ) ->
-              key_change detail, get_root detail.key
-              assign @data.tree, @data.selected.key, detail
-              resources = traverse @data.tree
+              Site.keyChange detail, Site.getRoot detail.key
+              Site.assign @data.tree, @data.selected.key, detail
+              resources = Site.traverse @data.tree
               Resource.put 
                 origin: configuration.sites.origin
                 name: "branch"
@@ -486,9 +487,9 @@ class extends R.Handle
           F.flow [
             R.description
             R.call ({ site, branch }, el, { detail } ) ->
-              key_change detail, get_root detail.key
-              assign @data.tree, @data.selected.key, detail
-              resources = traverse @data.tree
+              Site.keyChange detail, Site.getRoot detail.key
+              Site.assign @data.tree, @data.selected.key, detail
+              resources = Site.traverse @data.tree
               Resource.put 
                 origin: configuration.sites.origin
                 name: "branch"
@@ -503,9 +504,9 @@ class extends R.Handle
           F.flow [
             R.description
             R.call ({ site, branch }, el, { detail } ) ->
-              key_change detail, get_root detail.key
-              assign @data.tree, @data.selected.key, detail
-              resources = traverse @data.tree
+              Site.keyChange detail, Site.getRoot detail.key
+              Site.assign @data.tree, @data.selected.key, detail
+              resources = Site.traverse @data.tree
               Resource.put 
                 origin: configuration.sites.origin
                 name: "branch"
@@ -519,17 +520,17 @@ class extends R.Handle
         R.within "input[name='name']", [
           F.flow [
             R.description
-            R.call ({ site, branch }, el, event ) -> 
-              gadget = lookup @data.tree, @data.selected.key
+            R.call ({ site, branch }, el, _ ) -> 
+              gadget = Site.lookup @data.tree, @data.selected.key
               if el.value == ""
                 el.value = gadget.name
               else
                 if el.value != gadget.name
                   gadget.name = el.value
-                  key_change gadget, get_root gadget.key
-                  assign @data.tree, @data.selected.key, gadget
-                  @data.tree = sort @data.tree
-                  resources = traverse @data.tree
+                  Site.keyChange gadget, Site.getRoot gadget.key
+                  Site.assign @data.tree, @data.selected.key, gadget
+                  @data.tree = Site.sort @data.tree
+                  resources = Site.traverse @data.tree
                   Resource.put 
                     origin: configuration.sites.origin
                     name: "branch"
@@ -542,27 +543,27 @@ class extends R.Handle
       R.click "a[name='add-page']", [
         R.call ->
           action: "create page"
-        R.assign "data"
+        R.Site.assign "data"
       ]
       R.click "a[name='add-child']", [
         R.call ->
           action: "create gadget"
-        R.assign "data"
+        R.Site.assign "data"
       ]
       R.click "a[name='delete']", [
         R.description
         R.call ({ site, branch }) ->
           if @data.selected.type == "image"
-            { target } = lookup @data.tree, @data.selected.key
+            { target } = Site.lookup @data.tree, @data.selected.key
             if target.startsWith media_origin
-              [ prefix, path ] = target.split media_origin
-              [ root, site_, branch_, address, name ] = path[1..].split "/"
+              [ , path ] = target.split media_origin
+              [ , site_, branch_, address, name ] = path[1..].split "/"
               Resource.delete 
                 origin: configuration.sites.origin
                 name: "media"
                 bindings: { site: site_, branch: branch_, address, name}
-          delete_resource @data.tree, @data.selected.key
-          resources = if (Object.keys @data.tree).length > 0 then traverse @data.tree else []
+          Site.deleteResource @data.tree, @data.selected.key
+          resources = if (Object.keys @data.tree).length > 0 then Site.traverse @data.tree else []
           Resource.put 
             origin: configuration.sites.origin
             name: "branch"
@@ -570,7 +571,7 @@ class extends R.Handle
             content: resources
           selected: undefined
           action: ""
-        R.assign "data"
+        R.Site.assign "data"
       ]
       R.click "a[name='disabled-add-child']", [
         -> ""

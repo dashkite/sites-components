@@ -9,7 +9,6 @@ import * as Posh from "@dashkite/posh"
 
 import Image from "#helpers/image"
 
-
 import html from "./html"
 import waiting from "./waiting"
 import css from "./css"

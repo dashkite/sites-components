@@ -7,9 +7,11 @@ import * as Posh from "@dashkite/posh"
 
 import Gadget from "#helpers/gadget"
 
+import  configuration from "#configuration"
+{ origin } = configuration
+
 import html from "./html"
 import css from "./css"
-
 
 class extends R.Handle
 
@@ -24,7 +26,7 @@ class extends R.Handle
 
       R.describe [
         HTTP.resource ({ site, branch }) ->
-          origin: configuration.sites.origin
+          origin: origin
           name: "branch"
           bindings: { site, branch }
       ]
@@ -38,40 +40,18 @@ class extends R.Handle
       R.click "button", [
         R.validate
       ]
+
       R.valid [
         R.render waiting
         R.form
-        R.set "form"
-        R.call ->
-          loading = false
-          if @form.image.name != "" then loading = true
-          { @form..., loading }
-        R.render html
         R.description
-        # R.call ({ site, root, branch }) ->
-        R.call ({ site, branch }) ->
-          if @form.image.name != ""
-            # key = root + "/" + @form.name
-            address = await generateAddress()
-            { upload, download } = await Resource.post 
-              origin: configuration.sites.origin
-              name: "media"
-              bindings: { site, branch, address, name: @form.image.name }
-              content: contentType: @form.image.type
-            await fetch upload, 
-              method: "PUT"
-              headers: "content-type": @form.image.type
-              body: await @form.image.arrayBuffer()
-            delete @form.image
-            @form.target = download
-          { @data..., @form... }
-        R.dispatch "change"
-        R.call ->
-          { @form..., loading: false }
-        R.render html
+        Image.upload
       ]
+
+      # TODO wait, why?
       R.click "a[name='cancel']", [
         R.form.reset
       ]
+
     ]
   ]
