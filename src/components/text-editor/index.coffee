@@ -31,7 +31,7 @@ class extends R.Handle
           bindings: { site, branch }
       ]
 
-      R.active [
+      R.activate [
         Gadget.get
         K.poke ( gadget ) ->
           # TODO do we need this? if so, why?

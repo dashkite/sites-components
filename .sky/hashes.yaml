@@ -29,13 +29,13 @@ build/browser/src/components/link-creator/html.js: hX6M-b4u
 build/browser/src/components/link-creator/index.js: ssWrjjM2
 build/browser/src/components/layout-editor/css.js: PJOUCbt9
 build/browser/src/components/layout-editor/html.js: pyWY6WoX
-build/browser/src/components/layout-editor/index.js: slumTfWf
+build/browser/src/components/layout-editor/index.js: bTFjZvVk
 build/browser/src/components/link-editor/css.js: PJOUCbt9
 build/browser/src/components/link-editor/html.js: lZxNdukE
 build/browser/src/components/link-editor/index.js: G4DUjVZa
 build/browser/src/components/navigation-editor/css.js: PJOUCbt9
 build/browser/src/components/navigation-editor/html.js: WTM22Nlu
-build/browser/src/components/navigation-editor/index.js: bjRzNSxI
+build/browser/src/components/navigation-editor/index.js: A-yRfphZ
 build/browser/src/components/navigation-creator/css.js: arTZkyGc
 build/browser/src/components/navigation-creator/html.js: PA7d9Dwq
 build/browser/src/components/navigation-creator/index.js: uO8wYmlv
@@ -52,7 +52,7 @@ build/browser/src/components/site-add/html.js: htwE1Ije
 build/browser/src/components/site-add/index.js: 1fH3ajbK
 build/browser/src/components/site-builder/css.js: W2ZEn5Sg
 build/browser/src/components/site-builder/html.js: 3OarYjYU
-build/browser/src/components/site-builder/index.js: aZJFKwhQ
+build/browser/src/components/site-builder/index.js: ywNcTxPI
 build/browser/src/components/site-delete/css.js: h_uFLd3Q
 build/browser/src/components/site-delete/html.js: PhhZadCN
 build/browser/src/components/site-delete/index.js: 99MsJe_E
@@ -73,7 +73,7 @@ build/browser/src/components/text-creator/html.js: XpJOqkW5
 build/browser/src/components/text-creator/index.js: tvo8-n6S
 build/browser/src/components/text-editor/css.js: SLw5CNPE
 build/browser/src/components/text-editor/html.js: 4InEp9sE
-build/browser/src/components/text-editor/index.js: 2bdrRDQL
+build/browser/src/components/text-editor/index.js: j28ufZ42
 build/browser/src/helpers/gadget.js: fxRtrQKq
 build/browser/src/helpers/image.js: D16p32Eu
 build/browser/src/helpers/subscription.js: IEGNqi0J

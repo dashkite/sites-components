@@ -50,7 +50,7 @@ class extends R.Handle
           console.log "TREE", tree
           tree ?= []
           { sizes: [ 20, 60, 20 ], tree, site, branch }
-        R.Site.assign "data"
+        R.assign "data"
         R.render html
       ]
       R.event "click", [
@@ -63,7 +63,7 @@ class extends R.Handle
                 name: el.dataset.name
               action: "edit"
               page: Site.findPage @data.tree, el.dataset.key
-            R.Site.assign "data"
+            R.assign "data"
           ]
         ]
       ]
@@ -543,12 +543,12 @@ class extends R.Handle
       R.click "a[name='add-page']", [
         R.call ->
           action: "create page"
-        R.Site.assign "data"
+        R.assign "data"
       ]
       R.click "a[name='add-child']", [
         R.call ->
           action: "create gadget"
-        R.Site.assign "data"
+        R.assign "data"
       ]
       R.click "a[name='delete']", [
         R.description
@@ -571,7 +571,7 @@ class extends R.Handle
             content: resources
           selected: undefined
           action: ""
-        R.Site.assign "data"
+        R.assign "data"
       ]
       R.click "a[name='disabled-add-child']", [
         -> ""
