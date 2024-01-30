@@ -31,15 +31,11 @@ class extends R.Handle
         R.render html
       ]
 
-      R.click "button", [
-        R.validate
-      ]
-
       R.click "a[name='cancel']", [
         -> history.back()
       ]
 
-      R.valid [
+      R.submit [
         R.render waiting
         HTTP.post
         Subscription.update

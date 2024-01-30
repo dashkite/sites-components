@@ -12,16 +12,15 @@ class extends R.Handle
   Meta.mixin @, [
     R.tag "dashkite-layout-creator"
     R.diff
+
     R.initialize [
       R.shadow
       R.sheets [ css, Posh.component ]
       R.activate [
         R.render html
       ]
-      R.click "button", [
-        R.validate
-      ]
-      R.valid [
+
+      R.submit [
         R.description
         R.form
         R.call ( form, { root }) ->

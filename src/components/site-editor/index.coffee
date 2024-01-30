@@ -34,11 +34,7 @@ class extends R.Handle
         R.render html
       ]
 
-      R.click "button", [
-        R.validate
-      ]
-
-      R.valid [
+      R.submit [
         HTTP.get
         R.assign
         R.dispatch "change"

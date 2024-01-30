@@ -23,11 +23,7 @@ class extends R.Handle
         R.render html
       ]
 
-      R.click "button", [
-        R.validate
-      ]
-
-      R.valid [
+      R.submit [
         R.description
         R.form
         R.call ( form, { root }) ->
