@@ -1,5 +1,6 @@
 import * as K from "@dashkite/katana/async"
 import * as Meta from "@dashkite/joy/metaclass"
+import * as Obj from "@dashkite/joy/object"
 
 import * as R from "@dashkite/rio"
 
