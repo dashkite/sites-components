@@ -1,4 +1,5 @@
 import * as Fn from "@dashkite/joy/function"
+import * as K from "@dashkite/katana/async"
 import * as Obj from "@dashkite/joy/object"
 import HTTP from "@dashkite/rio-vega"
 
@@ -6,17 +7,20 @@ import HTTP from "@dashkite/rio-vega"
 # import { MediaType } from "@dashkite/media-type"
 # i think image.type has the content-type
 
-Image = Fn.flow [
-  K.push generateAddress
-  K.poke Obj.tag "address"
-  # set content type somehow?
-  HTTP.post
-  # get upload URL from response
-  # TODO how do we set this as the resource for the upload?
-  # set body to image.arrayBuffer()
-  HTTP.put
-
-]
+Image = 
+  upload: 
+    Fn.flow [
+      # K.push Address.generate
+      K.poke Obj.tag "address"
+      # set content type somehow?
+      HTTP.post [ 
+        # get upload URL from response
+        HTTP.json [
+          K.pop ({ upload }) ->
+            # TODO fetch -- see below
+        ]
+      ]
+    ]
 
 
 # upload: K.push ({ site, root, branch, name, image }) ->

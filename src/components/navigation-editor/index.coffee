@@ -1,4 +1,5 @@
 import * as Meta from "@dashkite/joy/metaclass"
+import * as K from "@dashkite/katana/async"
 
 import * as R from "@dashkite/rio"
 import HTTP from "@dashkite/rio-vega"
@@ -44,7 +45,7 @@ class extends R.Handle
       ]
 
       R.click "a[name='cancel']", [
-        R.form.reset
+        R.reset
       ]
     ]
   ]

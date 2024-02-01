@@ -45,7 +45,7 @@ class extends R.Handle
       ]
 
       R.click "a[name='cancel']", [
-        R.form.reset
+        R.reset
       ]
     ]
   ]

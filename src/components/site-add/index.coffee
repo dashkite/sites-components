@@ -2,6 +2,7 @@ import * as Meta from "@dashkite/joy/metaclass"
 
 import * as R from "@dashkite/rio"
 import HTTP from "@dashkite/rio-vega"
+import Route from "@dashkite/rio-oxygen"
 
 # import * as Posh from "@dashkite/posh"
 
@@ -37,12 +38,13 @@ class extends R.Handle
 
       R.submit [
         R.render waiting
-        HTTP.post
-        Subscription.update
-        R.description
-        Router.browse ({ workspace }) -> 
-          name: "sites-home"
-          parameters: { workspace }
+        HTTP.post [
+          HTTP.json [
+            Subscription.update
+            R.description
+            Route.browse name: "sites-home"
+          ]
+        ]
       ]
     ]
   ]

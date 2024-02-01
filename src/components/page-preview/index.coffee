@@ -13,6 +13,8 @@ import css from "./css"
 
 Preview =
 
+  interval: 1000
+
   # we don't call render here because diffHTML appears
   # to be doing a diff against the iframe's content [^1]
   
@@ -43,7 +45,7 @@ class extends R.Handle
         R.render html
       ]
 
-      R.poll interval, [
+      R.poll Preview.interval, [
         HTTP.get
         Preview.update        
       ]

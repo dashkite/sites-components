@@ -12,6 +12,7 @@ import  configuration from "#configuration"
 
 import html from "./html"
 import css from "./css"
+import waiting from "./waiting"
 
 class extends R.Handle
 
@@ -46,7 +47,7 @@ class extends R.Handle
 
       # TODO wait, why?
       R.click "a[name='cancel']", [
-        R.form.reset
+        R.reset
       ]
 
     ]

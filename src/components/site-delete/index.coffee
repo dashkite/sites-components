@@ -2,6 +2,7 @@ import * as Meta from "@dashkite/joy/metaclass"
 
 import * as R from "@dashkite/rio"
 import HTTP from "@dashkite/rio-vega"
+import Route from "@dashkite/rio-oxygen"
 
 import * as Posh from "@dashkite/posh"
 
@@ -41,15 +42,16 @@ class extends R.Handle
       R.click "button", [
         R.render waiting
         R.description
-        HTTP.delete
-        Subscription.delete
-        Router.browse ({ workspace }) ->
-          name: "sites-home"
-          parameters: { workspace }
+        HTTP.delete [
+          HTTP.success [
+            Subscription.delete
+            Route.browse name: "sites-home"
+          ]
+        ]
       ]
 
       R.click "a[name='cancel']", [
-        Router.back
+        Route.back
       ]
 
     ]
