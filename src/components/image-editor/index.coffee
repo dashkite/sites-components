@@ -6,6 +6,7 @@ import HTTP from "@dashkite/rio-vega"
 import * as Posh from "@dashkite/posh"
 
 import Gadget from "#helpers/gadget"
+import Image from "#helpers/image"
 
 import  configuration from "#configuration"
 { origin } = configuration
