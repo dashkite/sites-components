@@ -21,8 +21,8 @@ dependencies:
     specifier: link:../posh
     version: link:../posh
   '@dashkite/rio':
-    specifier: link:../carbon
-    version: link:../carbon
+    specifier: link:../rio
+    version: link:../rio
   '@dashkite/rio-oxygen':
     specifier: link:../rio-oxygen
     version: link:../rio-oxygen
@@ -61,7 +61,7 @@ devDependencies:
   '@dashkite/genie-coffee':
     specifier: link:../genie-coffee
     version: link:../genie-coffee
-  '@dashkite/genie-modules':
+  '@dashkite/genie-module':
     specifier: link:../genie-modules
     version: link:../genie-modules
   '@dashkite/genie-pug':
