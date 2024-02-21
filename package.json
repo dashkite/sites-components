@@ -42,7 +42,7 @@
     "@dashkite/genie-module": "link:../genie-module",
     "@dashkite/genie-pug": "link:../genie-pug",
     "@dashkite/genie-stylus": "link:../genie-stylus",
-    "@dashkite/genie-yaml-drn": "link:../genie-yaml-drn"
+    "@dashkite/genie-yaml": "link:../genie-yaml"
   },
   "dependencies": {
     "@dashkite/helium": "^0.4.4",
